@@ -1,0 +1,45 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-streaming
+  namespace: urban-sensors
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark-streaming
+  template:
+    metadata:
+      labels:
+        app: spark-streaming
+    spec:
+      containers:
+        - name: spark-streaming
+          image: urban-sensors-spark:1.0
+          imagePullPolicy: IfNotPresent
+          command:
+            - /opt/spark/bin/spark-submit
+          args:
+            - --master
+            - local[2]
+            - --conf
+            - spark.jars.ivy=/tmp/ivy
+            - --packages
+            - org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.5
+            - /opt/spark/work-dir/streaming_job.py
+          envFrom:
+            - configMapRef:
+                name: urban-sensors-config
+          env:
+            - name: SPARK_DRIVER_MEMORY
+              value: "512m"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "768Mi"
+            limits:
+              cpu: "2"
+              memory: "1536Mi"
+
+
+

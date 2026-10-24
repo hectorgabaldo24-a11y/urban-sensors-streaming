@@ -1,0 +1,7 @@
+﻿.venv/
+__pycache__/
+*.py[cod]
+urban-sensors-spark.tar
+.idea/
+.vscode/
+.env

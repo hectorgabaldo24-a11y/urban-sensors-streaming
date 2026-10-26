@@ -27,9 +27,9 @@ try:
 
         event = {
             "sensor_id": sensor_id,
-            "temperature": round(random.uniform(20, 38), 2),
-            "humidity": round(random.uniform(30, 90), 2),
-            "air_quality_index": random.randint(0, 150),
+            "temperatura": round(random.uniform(20, 38), 2),
+            "humedad": round(random.uniform(30, 90), 2),
+            "calidad_del_aire": random.randint(0, 150),
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 

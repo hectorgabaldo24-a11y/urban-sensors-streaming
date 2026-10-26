@@ -1,0 +1,99 @@
+>>     producer.close()
+>> '@ | Set-Content -Encoding utf8 .\producer\producer.py
+PS C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming> @'
+>> kafka-python==2.2.15
+>> '@ | Set-Content -Encoding utf8 .\producer\requirements.txt
+PS C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming> python --version
+Python 3.14.8
+PS C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming> python -m venv .venv
+PS C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming> .\.venv\Scripts\Activate.ps1.\.venv\Scripts\Activate.ps1
+.\.venv\Scripts\Activate.ps1.\.venv\Scripts\Activate.ps1 : El término 
+'.\.venv\Scripts\Activate.ps1.\.venv\Scripts\Activate.ps1' no se reconoce como nombre de un cmdlet, función, 
+archivo de script o programa ejecutable. Compruebe si escribió correctamente el nombre o, si incluyó una ruta 
+de acceso, compruebe que dicha ruta es correcta e inténtelo de nuevo.
+En línea: 1 Carácter: 1
++ .\.venv\Scripts\Activate.ps1.\.venv\Scripts\Activate.ps1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (.\.venv\Scripts...ts\Activate.ps1:String) [], CommandNotFoundExc 
+   eption
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+PS C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming> .\.venv\Scripts\Activate.ps1
+.\.venv\Scripts\Activate.ps1 : No se puede cargar el archivo 
+C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming\.venv\Scripts\Activate.ps1 porque la ejecución 
+de scripts está deshabilitada en este sistema. Para obtener más información, consulta el tema 
+about_Execution_Policies en https:/go.microsoft.com/fwlink/?LinkID=135170.
+En línea: 1 Carácter: 1
++ .\.venv\Scripts\Activate.ps1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+PS C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming> cmd /k .venv\Scripts\activate.batcmd /k .venv\Scripts\activate.bat
+".venv\Scripts\activate.batcmd" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming>.venv\Scripts\activate.bat
+
+(.venv) C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming>python -m pip install --upgrade pip
+Requirement already satisfied: pip in .\.venv\Lib\site-packages (26.2.1)
+Collecting pip
+  Downloading pip-26.2.2-py3-none-any.whl.metadata (4.6 kB)
+Downloading pip-26.2.2-py3-none-any.whl (1.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 3.6 MB/s  0:00:00
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 26.2.1
+    Uninstalling pip-26.2.1:
+      Successfully uninstalled pip-26.2.1
+Successfully installed pip-26.2.2
+
+(.venv) C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming>python -m pip install -r producer\requirements.txt
+Collecting kafka-python==2.2.15 (from -r producer\requirements.txt (line 1))
+  Downloading kafka_python-2.2.15-py2.py3-none-any.whl.metadata (10.0 kB)
+Downloading kafka_python-2.2.15-py2.py3-none-any.whl (309 kB)
+Installing collected packages: kafka-python
+Successfully installed kafka-python-2.2.15
+
+(.venv) C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming>python -c "from kafka import KafkaProducer; print('Dependencia Kafka instalada correctamente')"
+Dependencia Kafka instalada correctamente
+
+(.venv) C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming>kubectl apply -f k8s\kafka.yaml
+deployment.apps/kafka configured
+service/kafka configured
+
+(.venv) C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming>kubectl rollout status deployment/kafka -n urban-sensors --timeout=180s
+Waiting for deployment "kafka" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "kafka" rollout to finish: 1 old replicas are pending termination...
+deployment "kafka" successfully rolled out
+
+(.venv) C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming>kubectl rollout status deployment/kafka -n urban-sensors --timeout=180s
+deployment "kafka" successfully rolled out
+
+(.venv) C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming>kubectl get pods -n urban-sensors
+NAME                     READY   STATUS    RESTARTS   AGE
+kafka-7c75d87d75-ndwv4   1/1     Running   0          55s
+
+(.venv) C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming>kubectl get service kafka -n urban-sensors
+NAME    TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)             AGE
+kafka   ClusterIP   10.96.197.76   <none>        9092/TCP,9094/TCP   10m
+
+(.venv) C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming>kubectl port-forward service/kafka 9094:9094 -n urban-sensors
+Forwarding from 127.0.0.1:9094 -> 9094
+Forwarding from [::1]:9094 -> 9094
+Handling connection for 9094
+Handling connection for 9094
+
+(.venv) C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming>kubectl port-forward service/kafka 9094:9094 -n urban-sensors
+Forwarding from 127.0.0.1:9094 -> 9094
+Forwarding from [::1]:9094 -> 9094
+
+(.venv) C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming>
+ *  History restored 
+
+PS C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming> (Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned) ; (& c:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming\.venv\Scripts\Activate.ps1)
+(.venv) PS C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming> ^C
+(.venv) PS C:\Users\HectorGabaldo\Documents\Cursos\urban-sensors-streaming> kubectl port-forward service/kafka 9094:9094 -n urban-sensors
+Forwarding from 127.0.0.1:9094 -> 9094
+Forwarding from [::1]:9094 -> 9094
+Handling connection for 9094
+Handling connection for 9094
